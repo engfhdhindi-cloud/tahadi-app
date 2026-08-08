@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96">
+<defs>
+<radialGradient id="bg" cx="50%" cy="45%" r="70%">
+<stop offset="0%" stop-color="#0d3024"/>
+<stop offset="50%" stop-color="#0a2218"/>
+<stop offset="100%" stop-color="#050f0a"/>
+</radialGradient>
+<radialGradient id="cir" cx="40%" cy="40%" r="60%">
+<stop offset="0%" stop-color="#1a4a2a"/>
+<stop offset="100%" stop-color="#0a2218"/>
+</radialGradient>
+</defs>
+<rect width="96" height="96" rx="17" fill="url(#bg)"/>
+<circle cx="48" cy="42.24" r="36.480000000000004" fill="none" stroke="rgba(212,160,23,0.35)" stroke-width="2.4000000000000004"/>
+<circle cx="48" cy="42.24" r="30.72" fill="url(#cir)" stroke="rgba(212,160,23,0.6)" stroke-width="2.112"/>
+<text x="48" y="54.72" text-anchor="middle" dominant-baseline="middle" font-size="32.64" font-family="serif">🐆</text>
+<text x="48" y="88.32000000000001" text-anchor="middle" font-size="9.600000000000001" font-family="Arial" font-weight="900" fill="#D4A017">تحدي الفهد</text>
+<circle cx="14.399999999999999" cy="26.880000000000003" r="1.7279999999999998" fill="rgba(212,160,23,0.6)"/>
+<circle cx="81.6" cy="30.72" r="1.7279999999999998" fill="rgba(212,160,23,0.6)"/>
+<circle cx="11.52" cy="57.599999999999994" r="1.44" fill="rgba(212,160,23,0.4)"/>
+<circle cx="84.48" cy="59.519999999999996" r="1.44" fill="rgba(212,160,23,0.4)"/>
+</svg>
