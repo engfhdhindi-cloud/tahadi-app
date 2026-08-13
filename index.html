@@ -771,22 +771,28 @@ function beginTriple(){
   if(numEl)numEl.textContent=t;
   tripleState.timer=setInterval(()=>{
     t--;
-    if(numEl){numEl.textContent=t;numEl.style.color=t<=2?'var(--red)':t<=4?'var(--orange)':'var(--purple)';}
+    if(numEl){numEl.textContent=Math.max(0,t);numEl.style.color=t<=2&&t>0?'var(--red)':t<=4&&t>0?'var(--orange)':'var(--purple)';}
     if(t<=0){
       clearInterval(tripleState.timer);
-      // السؤال الحالي لم يجاب عليه
-      if(!tripleState.curAnswered){
-        tripleState.losses++;
-        const c=document.getElementById('triple-choices');
-        if(c)c.querySelectorAll('.ch').forEach(x=>x.classList.add('disabled-ch'));
-        const q=tripleState.qs[tripleState.cur];
-        const ce=document.getElementById('tch-'+q.a);
-        if(ce)ce.classList.add('correct');
-        const rh=document.getElementById('triple-reveal-hint');
-        if(rh){rh.classList.add('show');rh.innerHTML='<span class="wrong-tag">⏰ انتهى الوقت!</span> الصحيحة: <strong style="color:var(--green)">'+q.c[q.a]+'</strong>';}
-        playTimeUp();
-      }
-      setTimeout(finishTriple,900);
+      playTimeUp();
+      const doReveal=()=>{
+        if(!tripleState.curAnswered){
+          tripleState.losses++;
+          const c=document.getElementById('triple-choices');
+          if(c)c.querySelectorAll('.ch').forEach(x=>x.classList.add('disabled-ch'));
+          const q=tripleState.qs[tripleState.cur];
+          const ce=document.getElementById('tch-'+q.a);
+          if(ce)ce.classList.add('correct');
+          const rh=document.getElementById('triple-reveal-hint');
+          if(rh){rh.classList.add('show');rh.innerHTML='<span class="wrong-tag">⏰ انتهى الوقت!</span> الصحيحة: <strong style="color:var(--green)">'+q.c[q.a]+'</strong>';}
+        }
+        setTimeout(finishTriple,900);
+      };
+      if(streamDelaySecs>0){
+        let sd=streamDelaySecs;
+        if(numEl){numEl.textContent=sd;numEl.style.color='rgba(255,255,255,0.3)';}
+        const sdT=setInterval(()=>{sd--;if(numEl)numEl.textContent=sd;if(sd<=0){clearInterval(sdT);doReveal();}},1000);
+      } else { doReveal(); }
     }
   },1000);
 }
