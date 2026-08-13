@@ -40,7 +40,9 @@ html,body{background:#000;display:flex;justify-content:center;align-items:flex-s
 body{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
 #app{width:390px;min-height:100vh;min-height:100dvh;background:var(--dark);color:var(--white);display:flex;flex-direction:column;position:relative;overflow-x:hidden}
 @media(max-width:390px){#app{width:100vw}}
-.hdr{background:var(--navy);border-bottom:2px solid var(--gold);padding:8px 12px;display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap;flex-shrink:0}
+.hdr{background:var(--navy);border-bottom:2px solid var(--gold);padding:8px 12px;display:flex;align-items:center;justify-content:center;position:relative;min-height:56px}
+.hdr-reset{background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.3);color:#e74c3c;font-family:'Cairo',sans-serif;font-size:9px;font-weight:700;padding:3px 8px;border-radius:12px;cursor:pointer;flex-shrink:0}
+.hdr-reset:hover{background:#e74c3c;color:#fff}
 .logo{font-size:14px;font-weight:900;color:var(--gold);line-height:1.1}
 .logo small{color:rgba(255,255,255,0.4);font-size:9px;font-weight:400;display:block}
 .scores{display:flex;gap:6px;align-items:center}
@@ -305,16 +307,19 @@ body{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bot
 <body>
 <div id="app">
 <div class="hdr">
-  <div class="logo">🐆 تحدي الفهد<small>أول من يصل لـ 20 يفوز!</small></div>
-  <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+  <!-- أزرار أعلى اليسار -->
+  <div id="hdr-left-btns" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:5px">
+    <button id="stream-delay-btn" title="تأخير البث" onclick="toggleStreamDelay()" style="display:none;background:transparent;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.5);font-size:9px;padding:3px 6px;border-radius:8px;cursor:pointer;font-family:'Cairo',sans-serif">📡 +<span id="sd-val">3</span>ث</button>
+    <button class="hdr-reset" id="hdr-reset-btn" style="display:none" onclick="askReset()">↩</button>
+  </div>
+  <!-- النقاط في المنتصف -->
+  <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
     <div class="scores" id="hdr-scores" style="display:none">
       <div class="sb" id="sb1"><div class="sname" id="sb1-name">-</div><div class="spts" id="sb1-pts">0</div><div class="sqn">نقطة</div></div>
       <div class="vs">VS</div>
       <div class="sb" id="sb2"><div class="sname" id="sb2-name">-</div><div class="spts" id="sb2-pts">0</div><div class="sqn">نقطة</div></div>
     </div>
     <div class="turn-pill" id="turn-pill" style="display:none">دور <span id="turn-name">-</span></div>
-    <button class="hdr-reset" id="hdr-reset-btn" style="display:none" onclick="askReset()">↩</button>
-    <button id="stream-delay-btn" title="تأخير البث" onclick="toggleStreamDelay()" style="display:none;background:transparent;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.5);font-size:9px;padding:3px 6px;border-radius:8px;cursor:pointer;font-family:'Cairo',sans-serif">📡 +<span id="sd-val">3</span>ث</button>
   </div>
 </div>
 <div class="target-banner" id="target-banner">🎯 الهدف: 20 نقطة للفوز!</div>
