@@ -314,6 +314,7 @@ body{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bot
     </div>
     <div class="turn-pill" id="turn-pill" style="display:none">دور <span id="turn-name">-</span></div>
     <button class="hdr-reset" id="hdr-reset-btn" style="display:none" onclick="askReset()">↩</button>
+    <button id="stream-delay-btn" title="تأخير البث" onclick="toggleStreamDelay()" style="display:none;background:transparent;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.5);font-size:9px;padding:3px 6px;border-radius:8px;cursor:pointer;font-family:'Cairo',sans-serif">📡 +<span id="sd-val">3</span>ث</button>
   </div>
 </div>
 <div class="target-banner" id="target-banner">🎯 الهدف: 20 نقطة للفوز!</div>
@@ -624,7 +625,7 @@ function startGame(){
   G={players:[p1,p2],scores:[0,0],qNum:0,lifelines:[{aud:false,swap:false},{aud:false,swap:false}],stealsLeft:[2,2],suicideLeft:[true,true],suicideActive:false,catUses:[Object.fromEntries(CATS.map(c=>[c.id,0])),Object.fromEntries(CATS.map(c=>[c.id,0]))],curPlayer:0,curQ:null,usedIdx:{},catUsage:{},hiddenQUsed:false,audienceCatUsed:false,tripleUsed:[false,false],_finaleAnnounced:false,sessionUsedQ:new Set()};
   CATS.forEach(c=>{G.usedIdx[c.id]=new Set();G.catUsage[c.id]=0;});
   apiUsedQ=new Set([...globalUsedQ]);
-  document.getElementById('hdr-scores').style.display='flex';document.getElementById('turn-pill').style.display='block';document.getElementById('hdr-reset-btn').style.display='block';document.getElementById('target-banner').classList.add('show');document.getElementById('sp1-name').textContent=p1;document.getElementById('sp2-name').textContent=p2;updateHdr();runFirstStrike();
+  document.getElementById('hdr-scores').style.display='flex';document.getElementById('turn-pill').style.display='block';document.getElementById('hdr-reset-btn').style.display='block';document.getElementById('stream-delay-btn').style.display='inline-block';document.getElementById('target-banner').classList.add('show');document.getElementById('sp1-name').textContent=p1;document.getElementById('sp2-name').textContent=p2;updateHdr();runFirstStrike();
 }
 
 function getDiff(s){return s>=14?{ar:'صعب',l:'hard'}:s>=7?{ar:'متوسط',l:'med'}:{ar:'سهل',l:'easy'};}
@@ -842,7 +843,10 @@ async function pickCat(cat){
   G.qNum++;
   showQuestion();
 }
-function startCD(secs,color,onTO){clearCD();const fg=document.getElementById('timer-fg'),ne=document.getElementById('timer-num');fg.style.stroke=color;ne.style.color=color;let t=secs;ne.textContent=t;fg.style.strokeDashoffset=0;const step=CIRC/secs;document.getElementById('timer-wrap').classList.add('show');cdTimer=setInterval(()=>{t--;ne.textContent=t;fg.style.strokeDashoffset=step*(secs-t);if(t<=3)playTick(2);else if(t<=6)playTick(1);else playTick(0);if(t<=3){fg.style.stroke='var(--red)';ne.style.color='var(--red)';}if(t<=0){clearCD();playTimeUp();onTO();}},1000);}
+let streamDelaySecs=3; // تأخير البث المباشر — صفر يعني معطل
+function toggleStreamDelay(){streamDelaySecs=streamDelaySecs===0?3:streamDelaySecs===3?5:0;document.getElementById('sd-val').textContent=streamDelaySecs;showToast('📡 تأخير البث: '+streamDelaySecs+' ثواني');}
+function startCD(secs,color,onTO){clearCD();const fg=document.getElementById('timer-fg'),ne=document.getElementById('timer-num');fg.style.stroke=color;ne.style.color=color;let t=secs;ne.textContent=t;fg.style.strokeDashoffset=0;const step=CIRC/secs;document.getElementById('timer-wrap').classList.add('show');cdTimer=setInterval(()=>{t--;ne.textContent=Math.max(0,t);fg.style.strokeDashoffset=step*(secs-Math.max(0,t));if(t<=3&&t>0)playTick(2);else if(t<=6&&t>3)playTick(1);else if(t>6)playTick(0);if(t<=3&&t>0){fg.style.stroke='var(--red)';ne.style.color='var(--red)';}if(t<=0){clearCD();playTimeUp();if(streamDelaySecs>0){// عداد تعويض تأخير البث
+let sd=streamDelaySecs;ne.textContent=sd;ne.style.color='rgba(255,255,255,0.35)';fg.style.stroke='rgba(255,255,255,0.15)';const sdT=setInterval(()=>{sd--;ne.textContent=sd;if(sd<=0){clearInterval(sdT);onTO();}},1000);}else{onTO();}}},1000);}
 function clearCD(){if(cdTimer){clearInterval(cdTimer);cdTimer=null;}}
 // triggerSuicide/confirmSuicide/cancelSuicide أُزيلت — الانتحاري الآن يُفعَّل من شاشة الفئات
 function showQuestion(){
@@ -925,7 +929,7 @@ function endGame(winner){clearCD();clearStealCD();clearAutoNext();document.getEl
 function updateHdr(){document.getElementById('sb1-name').textContent=G.players[0];document.getElementById('sb1-pts').textContent=G.scores[0];document.getElementById('sb2-name').textContent=G.players[1];document.getElementById('sb2-pts').textContent=G.scores[1];document.getElementById('turn-name').textContent=G.players[G.curPlayer];document.getElementById('sb1').classList.toggle('active-turn',G.curPlayer===0);document.getElementById('sb2').classList.toggle('active-turn',G.curPlayer===1);}
 function askReset(){document.getElementById('modal-overlay').classList.add('open')}
 function closeModal(){document.getElementById('modal-overlay').classList.remove('open')}
-function confirmReset(){closeModal();clearCD();clearStealCD();clearAutoNext();document.getElementById('suicide-confirm').classList.remove('open');document.getElementById('hdr-scores').style.display='none';document.getElementById('turn-pill').style.display='none';document.getElementById('hdr-reset-btn').style.display='none';document.getElementById('target-banner').classList.remove('show');document.getElementById('phase-banner').className='phase-banner';apiUsedQ=new Set();showScreen('sc-api');showToast('↩ تم إعادة التحدي');}
+function confirmReset(){closeModal();clearCD();clearStealCD();clearAutoNext();stopSuicideMusic();const sc=document.getElementById('suicide-confirm');if(sc)sc.classList.remove('open');document.getElementById('hdr-scores').style.display='none';document.getElementById('turn-pill').style.display='none';document.getElementById('hdr-reset-btn').style.display='none';document.getElementById('stream-delay-btn').style.display='none';document.getElementById('target-banner').classList.remove('show');document.getElementById('phase-banner').className='phase-banner';apiUsedQ=new Set();G={};showScreen('sc-api');showToast('↩ تم إعادة التحدي');}
 function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id)&&document.getElementById(id).classList.add('active');const sc=document.querySelector('.scroll-content');if(sc)sc.scrollTop=0;}
 function showAnnounce(icon,title,sub,dur){const ov=document.getElementById('announce-overlay');document.getElementById('a-icon').textContent=icon;document.getElementById('a-title').textContent=title;document.getElementById('a-sub').textContent=sub;ov.classList.add('open');setTimeout(()=>ov.classList.remove('open'),dur||2000);}
 let ttt;
