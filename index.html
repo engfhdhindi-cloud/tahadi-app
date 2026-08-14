@@ -312,6 +312,7 @@ body{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bot
   <!-- أزرار أعلى اليسار -->
   <div id="hdr-left-btns" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:5px">
     <button id="stream-delay-btn" title="تأخير البث" onclick="toggleStreamDelay()" style="display:none;background:transparent;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.5);font-size:9px;padding:3px 6px;border-radius:8px;cursor:pointer;font-family:'Cairo',sans-serif">📡 +<span id="sd-val">3</span>ث</button>
+    <button id="host-pick-btn" title="اختيار الهوست" onclick="toggleHostPick()" style="display:none;background:rgba(155,89,182,0.15);border:1px solid rgba(155,89,182,0.4);color:rgba(155,89,182,0.9);font-size:9px;padding:3px 6px;border-radius:8px;cursor:pointer;font-family:'Cairo',sans-serif">👆 يدوي</button>
     <button class="hdr-reset" id="hdr-reset-btn" style="display:none" onclick="askReset()">↩</button>
   </div>
   <!-- النقاط في المنتصف -->
@@ -632,7 +633,7 @@ function startGame(){
   G={players:[p1,p2],scores:[0,0],qNum:0,lifelines:[{aud:false,swap:false},{aud:false,swap:false}],stealsLeft:[2,2],suicideLeft:[true,true],suicideActive:false,catUses:[Object.fromEntries(CATS.map(c=>[c.id,0])),Object.fromEntries(CATS.map(c=>[c.id,0]))],curPlayer:0,curQ:null,usedIdx:{},catUsage:{},hiddenQUsed:false,audienceCatUsed:false,tripleUsed:[false,false],_finaleAnnounced:false,sessionUsedQ:new Set()};
   CATS.forEach(c=>{G.usedIdx[c.id]=new Set();G.catUsage[c.id]=0;});
   apiUsedQ=new Set([...globalUsedQ]);
-  document.getElementById('hdr-scores').style.display='flex';document.getElementById('turn-pill').style.display='block';document.getElementById('hdr-reset-btn').style.display='block';document.getElementById('stream-delay-btn').style.display='inline-block';document.getElementById('target-banner').classList.add('show');document.getElementById('sp1-name').textContent=p1;document.getElementById('sp2-name').textContent=p2;updateHdr();runFirstStrike();
+  document.getElementById('hdr-scores').style.display='flex';document.getElementById('turn-pill').style.display='block';document.getElementById('hdr-reset-btn').style.display='block';document.getElementById('stream-delay-btn').style.display='inline-block';document.getElementById('host-pick-btn').style.display='inline-block';document.getElementById('target-banner').classList.add('show');document.getElementById('sp1-name').textContent=p1;document.getElementById('sp2-name').textContent=p2;updateHdr();runFirstStrike();
 }
 
 function getDiff(s){return s>=14?{ar:'صعب',l:'hard'}:s>=7?{ar:'متوسط',l:'med'}:{ar:'سهل',l:'easy'};}
@@ -917,10 +918,19 @@ function showQuestion(){
   const secs=isSuicide?7:isF?10:10,color=isSuicide?'var(--orange)':isF?'var(--red)':'var(--gold)';
   setTimeout(()=>startCD(secs,color,()=>{
     if(!answered&&!suicidePending){
-      answered=true;revealCh(-1);stopSuicideMusic();
-      document.getElementById('reveal-hint').classList.add('show');
-      document.getElementById('reveal-hint').innerHTML='⏰ <span class="wrong-tag">انتهى الوقت!</span> — <strong style="color:var(--green)">'+q.c[q.a]+'</strong>';
-      showToast('⏰ انتهى الوقت!');showNextBtn();
+      stopSuicideMusic();
+      if(hostPickMode){
+        // مود الهوست: تبقى الخيارات قابلة للضغط
+        document.getElementById('reveal-hint').classList.add('show');
+        document.getElementById('reveal-hint').innerHTML='⏰ <span style="color:var(--orange)">انتهى الوقت!</span> 👆 اضغط على إجابة المتسابق';
+        playTimeUp();
+        // الخيارات تبقى فعالة ليختار الهوست
+      } else {
+        answered=true;revealCh(-1);
+        document.getElementById('reveal-hint').classList.add('show');
+        document.getElementById('reveal-hint').innerHTML='⏰ <span class="wrong-tag">انتهى الوقت!</span> — <strong style="color:var(--green)">'+q.c[q.a]+'</strong>';
+        showToast('⏰ انتهى الوقت!');showNextBtn();
+      }
     }
   }),100);
 }
@@ -947,7 +957,9 @@ function closeModal(){document.getElementById('modal-overlay').classList.remove(
 function confirmReset(){closeModal();clearCD();clearStealCD();clearAutoNext();stopSuicideMusic();const sc=document.getElementById('suicide-confirm');if(sc)sc.classList.remove('open');document.getElementById('hdr-scores').style.display='none';document.getElementById('turn-pill').style.display='none';document.getElementById('hdr-reset-btn').style.display='none';document.getElementById('stream-delay-btn').style.display='none';document.getElementById('target-banner').classList.remove('show');document.getElementById('phase-banner').className='phase-banner';apiUsedQ=new Set();G={};showScreen('sc-api');showToast('↩ تم إعادة التحدي');}
 function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id)&&document.getElementById(id).classList.add('active');const sc=document.querySelector('.scroll-content');if(sc)sc.scrollTop=0;}
 function showAnnounce(icon,title,sub,dur){const ov=document.getElementById('announce-overlay');document.getElementById('a-icon').textContent=icon;document.getElementById('a-title').textContent=title;document.getElementById('a-sub').textContent=sub;ov.classList.add('open');setTimeout(()=>ov.classList.remove('open'),dur||2000);}
+let hostPickMode=true;
 let ttt;
+function toggleHostPick(){hostPickMode=!hostPickMode;const btn=document.getElementById('host-pick-btn');if(btn){btn.textContent=hostPickMode?'👆 يدوي':'🤖 تلقائي';btn.style.background=hostPickMode?'rgba(155,89,182,0.15)':'rgba(255,255,255,0.05)';btn.style.borderColor=hostPickMode?'rgba(155,89,182,0.4)':'rgba(255,255,255,0.15)';btn.style.color=hostPickMode?'rgba(155,89,182,0.9)':'rgba(255,255,255,0.4)';}showToast(hostPickMode?'👆 مود الهوست: أنت تختار الجواب':'🤖 مود تلقائي: يظهر الجواب تلقائياً');}
 function showToast(msg){const old=document.querySelector('.toast');if(old)old.remove();clearTimeout(ttt);const t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);ttt=setTimeout(()=>t.remove(),2300);}
 </script>
 </body>
