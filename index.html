@@ -590,7 +590,12 @@ function startGame(){
   document.getElementById('hdr-scores').style.display='flex';document.getElementById('turn-pill').style.display='block';document.getElementById('hdr-reset-btn').style.display='block';document.getElementById('stream-delay-btn').style.display='inline-block';document.getElementById('host-pick-btn').style.display='inline-block';document.getElementById('target-banner').classList.add('show');document.getElementById('sp1-name').textContent=p1;document.getElementById('sp2-name').textContent=p2;updateHdr();runFirstStrike();
 }
 
-function getDiff(){const n=G.qNum;return n>=10?{ar:'صعب',l:'hard'}:n>=5?{ar:'متوسط',l:'med'}:{ar:'سهل',l:'easy'};}
+function getDiff(){
+  // الصعوبة بناءً على نقاط اللاعب الحالي
+  // 0-5 سهل | 6-10 متوسط | 11+ صعب
+  const s=G.scores[G.curPlayer];
+  return s>=11?{ar:'صعب',l:'hard'}:s>=6?{ar:'متوسط',l:'med'}:{ar:'سهل',l:'easy'};
+}
 
 function runFirstStrike(){
   strikeAnswered=false;
@@ -651,7 +656,12 @@ async function genAPI(catName,catId,diff){
   const angles=['من زاوية مختلفة','جانب غير شائع','تفصيل دقيق','معلومة نادرة','ناحية علمية/تاريخية'];
   const angle=angles[Math.floor(Math.random()*angles.length)];
   const seed=Math.floor(Math.random()*9999);
-  const pr=`أنت مولّد أسئلة مسابقات ثقافية عربية. رقم الجلسة: ${seed}.\nاكتب سؤالاً واحداً جديداً تماماً عن: ${catName}، مستوى: ${diff.ar}، من ${angle}.\nقواعد صارمة:\n1. عربية فصحى بسيطة، 4 اختيارات، واحد صحيح فقط\n2. يجب أن يكون مختلفاً كلياً عن هذه الأسئلة المحظورة: ${usedList||'لا يوجد'}\n3. لا تستخدم نفس الموضوع أو الصياغة\nأجب JSON فقط بدون أي نص إضافي: {"q":"السؤال","c":["أ","ب","ج","د"],"a":0}`;
+  const diffDesc={
+    'سهل':'(سؤال بسيط يعرفه معظم الناس، معلومة عامة شائعة)',
+    'متوسط':'(سؤال يحتاج معرفة متوسطة، ليس شائعاً جداً ولا نادراً)',
+    'صعب':'(سؤال متخصص يحتاج معرفة عميقة، معلومة غير مألوفة للعامة)'
+  };
+  const pr=`أنت مولّد أسئلة مسابقات ثقافية عربية. رقم العشوائية: ${seed}.\nاكتب سؤالاً واحداً جديداً تماماً عن: ${catName}، من ${angle}.\nمستوى الصعوبة المطلوب: ${diff.ar} ${diffDesc[diff.ar]||''}\nقواعد صارمة:\n1. عربية فصحى بسيطة، 4 اختيارات، واحد صحيح فقط\n2. التزم بمستوى الصعوبة المطلوب بدقة\n3. السؤال يجب أن يكون مختلفاً كلياً عن هذه المحظورة: ${usedList||'لا يوجد'}\n4. لا تكرر نفس الموضوع أو الصياغة أبداً\nأجب JSON فقط: {"q":"السؤال","c":["أ","ب","ج","د"],"a":0}`;
   const doFetch=async()=>{
     const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:400,messages:[{role:'user',content:pr}]})});
     if(!r.ok)return null;
