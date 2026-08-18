@@ -325,7 +325,7 @@ body{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bot
     <div class="turn-pill" id="turn-pill" style="display:none">دور <span id="turn-name">-</span></div>
   </div>
 </div>
-<div class="target-banner" id="target-banner">🎯 الهدف: 20 نقطة للفوز!</div>
+<div class="target-banner" id="target-banner">🎯 الهدف: 15 نقطة للفوز!</div>
 <div class="phase-banner" id="phase-banner"></div>
 
 <!-- بانر تثبيت PWA -->
@@ -388,13 +388,14 @@ body{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bot
 <div class="screen" id="sc-rules">
   <div style="padding-top:4px">
     <div class="rules-title">📋 قواعد تحدي الفهد</div>
-    <div class="rule-item"><div class="rule-icon">🏆</div><div class="rule-text"><strong>هدف اللعبة</strong><p>أول من يصل إلى <strong style="color:var(--gold)">20 نقطة</strong> يفوز!</p></div></div>
+    <div class="rule-item"><div class="rule-icon">🏆</div><div class="rule-text"><strong>هدف اللعبة</strong><p>أول من يصل إلى <strong style="color:var(--gold)">15 نقطة</strong> يفوز!</p></div></div>
+    <div class="rule-item"><div class="rule-icon">⭐</div><div class="rule-text"><strong>تدرج الصعوبة</strong><p>أسئلة 1-5 = سهلة ⭐ &nbsp;•&nbsp; 6-10 = متوسطة ⭐⭐ &nbsp;•&nbsp; 11-15 = صعبة ⭐⭐⭐</p></div></div>
+    <div class="rule-item"><div class="rule-icon">⏱️</div><div class="rule-text"><strong>وقت الإجابة</strong><p>أسئلة 1-9 = 15 ثانية &nbsp;•&nbsp; أسئلة 10-15 = 10 ثواني</p></div></div>
+    <div class="rule-item"><div class="rule-icon">🔄</div><div class="rule-text"><strong>السرقة — مرتان لكل لاعب</strong><p>غلط؟ يظهر زر السرقة بدون توقيت — عند الضغط يبدأ عداد 5 ثواني للإجابة.</p></div></div>
+    <div class="rule-item"><div class="rule-icon">💣</div><div class="rule-text"><strong>التحدي الانتحاري — مرة واحدة</strong><p>يُفعَّل عند 10 نقاط — صح = +2 🔥 | غلط = -2 💀 — بدون وسائل مساعدة.</p></div></div>
+    <div class="rule-item"><div class="rule-icon">🏁</div><div class="rule-text"><strong>الضربة القاضية</strong><p>تُفعَّل عند 10 نقاط — نقطتان + 10 ثواني + بدون وسائل.</p></div></div>
+    <div class="rule-item"><div class="rule-icon">🗡️</div><div class="rule-text"><strong>اخصم — 5 متتالية</strong><p>أجب صح 5 مرات متتالية وينشط زر «اخصم» لخصم نقطة من الخصم!</p></div></div>
     <div class="rule-item"><div class="rule-icon">📂</div><div class="rule-text"><strong>اختيار الفئات — 2 مرة كحد أقصى</strong><p>إذا استُخدمت جميع الفئات تُفتح تلقائياً من جديد.</p></div></div>
-    <div class="rule-item"><div class="rule-icon">⭐</div><div class="rule-text"><strong>النقاط</strong><p>عادي = نقطة • الثلاثي = نقطتان • المخفي = نقطتان • القاضية = نقطتان</p></div></div>
-    <div class="rule-item"><div class="rule-icon">🔄</div><div class="rule-text"><strong>السرقة — مرتان لكل لاعب</strong><p>غلط؟ الثاني يسرق خلال 5 ثواني بدون كشف الجواب.</p></div></div>
-    <div class="rule-item"><div class="rule-icon">💣</div><div class="rule-text"><strong>التحدي الانتحاري — مرة واحدة</strong><p>فعّله قبل اختيار الفئة: صح = +3 🔥، غلط = -2 💀</p></div></div>
-    <div class="rule-item"><div class="rule-icon">🎰</div><div class="rule-text"><strong>السؤال المخفي</strong><p>يطلع مفاجأة — إجابة صحيحة = نقطتان!</p></div></div>
-    <div class="rule-item"><div class="rule-icon">🏁</div><div class="rule-text"><strong>الضربة القاضية</strong><p>تُفعَّل عند 15 نقطة — نقطتان + 10 ثواني + بدون وسائل.</p></div></div>
     <div class="rule-item"><div class="rule-icon">🆘</div><div class="rule-text"><strong>وسائل المساعدة — 2 لكل لاعب</strong><div class="ll-preview"><div class="ll-chip">🙋 سؤال الجمهور</div><div class="ll-chip">🔄 استبدال السؤال</div></div></div></div>
     <div style="text-align:center;margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
       <button class="btn sec" onclick="showScreen('sc-players')">← رجوع</button>
@@ -434,75 +435,28 @@ body{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bot
 <div class="screen" id="sc-cat">
   <div style="padding-top:4px">
     <div class="aud-cat-box" id="aud-cat-box"><h4>🎤 تحدي الجمهور!</h4><p>اقرأ الكومنتات واختر الفئة الأكثر طلباً 👇</p></div>
-    <div class="cp-head"><div class="cp-pname" id="cp-pname">-</div><div class="cp-sub">اختر فئة سؤالك</div></div>
     <!-- عناصر مخفية للحفاظ على عمل JS -->
     <div style="display:none">
-      <div id="p-res-title"></div>
-      <div id="res-aud-icons"></div>
-      <div id="res-swap-icons"></div>
-      <div id="res-suicide-icons"></div>
-      <div id="res-steal-icons"></div>
+      <div id="cp-pname"></div><div id="p-res-title"></div>
+      <div id="res-aud-icons"></div><div id="res-swap-icons"></div>
+      <div id="res-suicide-icons"></div><div id="res-steal-icons"></div>
     </div>
-    <!-- زر تفعيل الانتحاري قبل اختيار الفئة -->
-    <div id="suicide-cat-wrap" style="text-align:center;margin-bottom:10px;display:none">
+    <!-- زر الانتحاري -->
+    <div id="suicide-cat-wrap" style="text-align:center;margin-bottom:8px;display:none">
       <button id="suicide-cat-btn" class="suicide-trigger" style="font-size:13px;padding:8px 20px;border-radius:22px" onclick="toggleSuicideCat()">💣 تفعيل التحدي الانتحاري</button>
-      <div id="suicide-cat-hint" style="font-size:10px;color:rgba(255,255,255,0.4);margin-top:5px">صح = +3 🔥 | غلط = -2 💀</div>
+      <div id="suicide-cat-hint" style="font-size:10px;color:rgba(255,255,255,0.4);margin-top:4px">صح = +2 🔥 | غلط = -2 💀</div>
+    </div>
+    <!-- زر الاخصم -->
+    <div id="deduct-wrap" style="text-align:center;margin-bottom:8px;display:none">
+      <button id="deduct-btn" style="font-size:13px;padding:8px 20px;border-radius:22px;background:rgba(231,76,60,0.12);border:1.5px solid rgba(231,76,60,0.5);color:#e74c3c;font-family:'Cairo',sans-serif;font-weight:700;cursor:pointer" onclick="useDeduct()">🗡️ اخصم نقطة من الخصم</button>
+      <div style="font-size:10px;color:rgba(255,255,255,0.35);margin-top:4px">5 إجابات صحيحة متتالية 🔥</div>
     </div>
     <div class="cat-used-info" id="cat-used-info"></div>
     <div class="cats-grid" id="cats-grid"></div>
   </div>
 </div>
 
-<!-- TRIPLE -->
-<div class="screen" id="sc-triple">
-  <div style="padding-top:4px">
-    <!-- شاشة الشروط -->
-    <div id="triple-intro">
-      <div style="text-align:center;padding:18px 0 12px">
-        <div style="font-size:52px;margin-bottom:6px">🔮</div>
-        <div style="font-size:17px;font-weight:900;color:var(--purple);letter-spacing:.5px">الثلاثي الذهبي!</div>
-        <div id="triple-intro-player" style="font-size:12px;color:rgba(255,255,255,0.55);margin-top:5px">-</div>
-      </div>
-      <div class="card" style="margin:0 0 14px">
-        <div style="display:flex;flex-direction:column;gap:12px">
-          <div style="display:flex;gap:12px;align-items:center">
-            <span style="font-size:26px">⏱️</span>
-            <div><strong style="color:var(--gold)">7 ثواني فقط</strong><p style="margin:3px 0 0;color:rgba(255,255,255,0.5);font-size:11px">مؤقّت واحد لثلاثة أسئلة كاملة</p></div>
-          </div>
-          <div style="display:flex;gap:12px;align-items:center">
-            <span style="font-size:26px">🎯</span>
-            <div><strong style="color:var(--gold)">اكسب 2 من 3</strong><p style="margin:3px 0 0;color:rgba(255,255,255,0.5);font-size:11px">سؤالين صحيح = نقطتان 🔮</p></div>
-          </div>
-          <div style="display:flex;gap:12px;align-items:center">
-            <span style="font-size:26px">⚡</span>
-            <div><strong style="color:var(--gold)">أجب بسرعة</strong><p style="margin:3px 0 0;color:rgba(255,255,255,0.5);font-size:11px">نفاد الوقت = سؤال خاطئ = انتهى التحدي</p></div>
-          </div>
-        </div>
-      </div>
-      <button class="btn" style="width:100%;font-size:15px;padding:14px;background:linear-gradient(135deg,rgba(155,89,182,0.25),rgba(155,89,182,0.45));border:2px solid var(--purple);color:var(--purple)" onclick="beginTriple()">✅ أنا مستعد!</button>
-    </div>
-    <!-- شاشة اللعب -->
-    <div id="triple-game" style="display:none">
-      <div style="text-align:center;margin-bottom:10px">
-        <div style="font-size:14px;font-weight:900;color:var(--purple)">🔮 الثلاثي الذهبي — <span id="triple-pname">-</span></div>
-        <div style="font-size:10px;color:rgba(255,255,255,0.45);margin-top:3px">اكسب 2 من 3 تحصل نقطتين!</div>
-        <div class="triple-progress" id="triple-progress"></div>
-      </div>
-      <!-- عداد مشترك -->
-      <div style="text-align:center;margin-bottom:10px">
-        <div id="triple-timer-num" style="font-size:42px;font-weight:900;color:var(--purple);line-height:1;transition:color .3s">7</div>
-        <div style="font-size:10px;color:rgba(255,255,255,0.4)">ثانية متبقية للجميع</div>
-      </div>
-      <div class="qcard triple-pts">
-        <div class="pts-badge triple-bg" style="display:block">🔮 الثلاثي</div>
-        <div class="qmeta"><span class="qnum-b" id="triple-qnum-b">س 1/3</span><span class="qcat-b" id="triple-qcat-b">-</span></div>
-        <div class="qtext" id="triple-qtext">-</div>
-        <div class="choices" id="triple-choices"></div>
-        <div class="reveal-hint" id="triple-reveal-hint"></div>
-      </div>
-    </div>
-  </div>
-</div>
+
 
 <!-- QUESTION -->
 <div class="screen" id="sc-q">
@@ -620,7 +574,7 @@ delete QB.arab;
 QB.deen=[{q:'أول سورة في القرآن الكريم؟',c:['البقرة','الفاتحة','آل عمران','النساء'],a:1,l:'easy'},{q:'عدد أركان الإسلام؟',c:['3','4','5','6'],a:2,l:'easy'},{q:'عدد سور القرآن الكريم؟',c:['110','114','120','100'],a:1,l:'easy'},{q:'أطول سورة في القرآن؟',c:['آل عمران','النساء','البقرة','المائدة'],a:2,l:'easy'},{q:'أقصر سورة في القرآن؟',c:['الإخلاص','الكوثر','الفلق','الناس'],a:1,l:'easy'},{q:'السنة التي فُرض فيها الصيام؟',c:['السنة الأولى','السنة الثانية','السنة الثالثة','السنة الرابعة'],a:1,l:'med'},{q:'عدد آيات سورة الفاتحة؟',c:['5','6','7','8'],a:2,l:'easy'},{q:'ماذا يُسمى الحج الذي يؤديه المسلم لأول مرة؟',c:['حج القِران','حج الإفراد','حج التمتع','كلها صحيحة'],a:3,l:'med'},{q:'عدد أشهر السنة الهجرية؟',c:['10','11','12','13'],a:2,l:'easy'},{q:'اسم والدة النبي محمد ﷺ؟',c:['خديجة','آمنة','فاطمة','مريم'],a:1,l:'easy'}];
 const CATS=[{id:'geo',name:'جغرافيا',icon:'🌍'},{id:'sci',name:'علوم',icon:'🔬'},{id:'hist',name:'تاريخ',icon:'📜'},{id:'sport',name:'رياضة',icon:'⚽'},{id:'art',name:'فن وأدب',icon:'🎨'},{id:'tech',name:'تقنية',icon:'💻'},{id:'gen',name:'ثقافة',icon:'🧠'},{id:'math',name:'رياضيات',icon:'🔢'},{id:'deen',name:'الدين',icon:'☪️'}];
 const ALL_Q=Object.values(QB).flat();
-const TARGET=20,FT=15,CIRC=138.2,CAT_MAX=2;
+const TARGET=15,FT=10,CIRC=138.2,CAT_MAX=2;
 let G={},apiKey='',demoMode=false,answered=false,stealActive=false;
 let cdTimer=null,stealCdTimer=null,tripleState={},strikeAnswered=false;
 let autoNextTimer=null,suicidePending=false,apiUsedQ=new Set();
@@ -630,13 +584,13 @@ function goToPlayers(demo){demoMode=demo;if(!demo){const k=document.getElementBy
 function startGame(){
   const p1=document.getElementById('in-p1').value.trim()||'لاعب 1',p2=document.getElementById('in-p2').value.trim()||'لاعب 2';
   globalUsedQ = loadUsedQ();
-  G={players:[p1,p2],scores:[0,0],qNum:0,lifelines:[{aud:false,swap:false},{aud:false,swap:false}],stealsLeft:[2,2],suicideLeft:[true,true],suicideActive:false,catUses:[Object.fromEntries(CATS.map(c=>[c.id,0])),Object.fromEntries(CATS.map(c=>[c.id,0]))],curPlayer:0,curQ:null,usedIdx:{},catUsage:{},hiddenQUsed:false,audienceCatUsed:false,tripleUsed:[false,false],_finaleAnnounced:false,sessionUsedQ:new Set()};
+  G={players:[p1,p2],scores:[0,0],qNum:0,lifelines:[{aud:false,swap:false},{aud:false,swap:false}],stealsLeft:[2,2],suicideLeft:[true,true],suicideActive:false,catUses:[Object.fromEntries(CATS.map(c=>[c.id,0])),Object.fromEntries(CATS.map(c=>[c.id,0]))],curPlayer:0,curQ:null,usedIdx:{},catUsage:{},audienceCatUsed:false,streak:[0,0],deductAvailable:[false,false],_finaleAnnounced:false,sessionUsedQ:new Set()};
   CATS.forEach(c=>{G.usedIdx[c.id]=new Set();G.catUsage[c.id]=0;});
   apiUsedQ=new Set([...globalUsedQ]);
   document.getElementById('hdr-scores').style.display='flex';document.getElementById('turn-pill').style.display='block';document.getElementById('hdr-reset-btn').style.display='block';document.getElementById('stream-delay-btn').style.display='inline-block';document.getElementById('host-pick-btn').style.display='inline-block';document.getElementById('target-banner').classList.add('show');document.getElementById('sp1-name').textContent=p1;document.getElementById('sp2-name').textContent=p2;updateHdr();runFirstStrike();
 }
 
-function getDiff(s){return s>=14?{ar:'صعب',l:'hard'}:s>=7?{ar:'متوسط',l:'med'}:{ar:'سهل',l:'easy'};}
+function getDiff(){const n=G.qNum;return n>=11?{ar:'صعب',l:'hard'}:n>=6?{ar:'متوسط',l:'med'}:{ar:'سهل',l:'easy'};}
 
 function runFirstStrike(){
   strikeAnswered=false;
@@ -710,7 +664,7 @@ async function genAPI(catName,catId,diff){
   }catch{return null;}
 }
 
-function goToCatPick(){updateHdr();updatePB();if(G.qNum>0&&G.qNum%10===0&&!G.audienceCatUsed){G.audienceCatUsed=true;document.getElementById('aud-cat-box').classList.add('show');setTimeout(()=>{showAnnounce('🎤','تحدي الجمهور!','اقرأ الكومنتات واختر الفئة الأكثر طلباً 👇',2200);playAudienceSound();},100);}else document.getElementById('aud-cat-box').classList.remove('show');const p=G.curPlayer;if(!G.tripleUsed[p]&&G.qNum>=3&&G.qNum<=14&&Math.random()<0.22){G.tripleUsed[p]=true;startTriple();return;}G.suicideCatPending=false;showScreen('sc-cat');renderCatGrid();renderRes();}
+function goToCatPick(){updateHdr();updatePB();if(G.qNum>0&&G.qNum%10===0&&!G.audienceCatUsed){G.audienceCatUsed=true;document.getElementById('aud-cat-box').classList.add('show');setTimeout(()=>{showAnnounce('🎤','تحدي الجمهور!','اقرأ الكومنتات واختر الفئة الأكثر طلباً 👇',2200);playAudienceSound();},100);}else document.getElementById('aud-cat-box').classList.remove('show');G.suicideCatPending=false;showScreen('sc-cat');renderCatGrid();renderRes();}
 function renderRes(){
   const p=G.curPlayer;
   document.getElementById('p-res-title').textContent='وسائل '+G.players[p];
@@ -727,7 +681,8 @@ function renderRes(){
   else ci.innerHTML='';
   // زر الانتحاري فوق الشبكة — يظهر فقط عند النقطة 13+
   const sw=document.getElementById('suicide-cat-wrap'),sb=document.getElementById('suicide-cat-btn');
-  const hardMode=G.scores[p]>=13;
+  const dw=document.getElementById('deduct-wrap');if(dw)dw.style.display=(G.deductAvailable&&G.deductAvailable[p])?'block':'none';
+  const hardMode=G.scores[p]>=10;
   if(!G.suicideLeft[p]||!hardMode){sw.style.display='none';}
   else{
     sw.style.display='block';
@@ -761,88 +716,11 @@ function toggleSuicideCat(){
   }
 }
 function renderCatGrid(){const p=G.curPlayer;document.getElementById('cp-pname').textContent=G.players[p];if(CATS.every(c=>G.catUses[p][c.id]>=CAT_MAX)){CATS.forEach(c=>G.catUses[p][c.id]=0);showToast('🔓 جميع الفئات أُعيد فتحها!');}const grid=document.getElementById('cats-grid');grid.innerHTML='';CATS.forEach(cat=>{const uses=G.catUses[p][cat.id],mx=uses>=CAT_MAX;const d=document.createElement('div');d.className='cat-btn'+(mx?' cat-maxed':'');d.innerHTML=`${mx?'<div class="cat-locked-badge">2/2</div>':''}<span class="ci">${cat.icon}</span><span class="cn">${cat.name}</span><span class="cav">${uses?'×'+uses+' مستخدم':'متاحة'}</span>`;if(!mx)d.onclick=()=>pickCat(cat);else d.onclick=()=>showToast('⚠️ الحد الأقصى 2 مرات');grid.appendChild(d);});}
-function startTriple(){
-  showAnnounce('🔮','الثلاثي الذهبي!',G.players[G.curPlayer]+' — 2 من 3 🔮',1600);
-  tripleState={qs:['geo','sci','gen'].map(id=>getLocalQ(id,'easy')),cur:0,wins:0,losses:0,player:G.curPlayer,timer:null,curAnswered:false,timerSecs:7};
-  document.getElementById('triple-intro').style.display='block';
-  document.getElementById('triple-game').style.display='none';
-  document.getElementById('triple-intro-player').textContent='👤 '+G.players[G.curPlayer];
-  setTimeout(()=>showScreen('sc-triple'),200);
-}
-function beginTriple(){
-  document.getElementById('triple-intro').style.display='none';
-  document.getElementById('triple-game').style.display='block';
-  showTripleQ();
-  // مؤقت واحد لكل الأسئلة
-  let t=tripleState.timerSecs;
-  const numEl=document.getElementById('triple-timer-num');
-  if(numEl)numEl.textContent=t;
-  tripleState.timer=setInterval(()=>{
-    t--;
-    if(numEl){numEl.textContent=Math.max(0,t);numEl.style.color=t<=2&&t>0?'var(--red)':t<=4&&t>0?'var(--orange)':'var(--purple)';}
-    if(t<=0){
-      clearInterval(tripleState.timer);
-      playTimeUp();
-      const doReveal=()=>{
-        if(!tripleState.curAnswered){
-          tripleState.losses++;
-          const c=document.getElementById('triple-choices');
-          if(c)c.querySelectorAll('.ch').forEach(x=>x.classList.add('disabled-ch'));
-          const q=tripleState.qs[tripleState.cur];
-          const ce=document.getElementById('tch-'+q.a);
-          if(ce)ce.classList.add('correct');
-          const rh=document.getElementById('triple-reveal-hint');
-          if(rh){rh.classList.add('show');rh.innerHTML='<span class="wrong-tag">⏰ انتهى الوقت!</span> الصحيحة: <strong style="color:var(--green)">'+q.c[q.a]+'</strong>';}
-        }
-        setTimeout(finishTriple,900);
-      };
-      if(streamDelaySecs>0){
-        let sd=streamDelaySecs;
-        if(numEl){numEl.textContent=sd;numEl.style.color='rgba(255,255,255,0.3)';}
-        const sdT=setInterval(()=>{sd--;if(numEl)numEl.textContent=sd;if(sd<=0){clearInterval(sdT);doReveal();}},1000);
-      } else { doReveal(); }
-    }
-  },1000);
-}
-function showTripleQ(){
-  // لا يبدأ مؤقت جديد — المؤقت المشترك شغال
-  tripleState.curAnswered=false;
-  const q=tripleState.qs[tripleState.cur];
-  document.getElementById('triple-pname').textContent=G.players[tripleState.player];
-  document.getElementById('triple-qnum-b').textContent='س '+(tripleState.cur+1)+'/'+tripleState.qs.length;
-  document.getElementById('triple-qcat-b').textContent=q.catIcon+' '+q.catName;
-  document.getElementById('triple-qtext').textContent=q.q;
-  document.getElementById('triple-reveal-hint').className='reveal-hint';
-  document.getElementById('triple-reveal-hint').innerHTML='';
-  renderTriProg();
-  const L=['أ','ب','ج','د'],c=document.getElementById('triple-choices');
-  c.innerHTML='';
-  q.c.forEach((ch,i)=>{
-    const d=document.createElement('div');d.className='ch';d.id='tch-'+i;
-    d.innerHTML=`<span class="lbl">${L[i]}</span>${ch}`;
-    d.onclick=()=>{
-      if(tripleState.curAnswered)return;
-      tripleState.curAnswered=true;
-      c.querySelectorAll('.ch').forEach(x=>x.classList.add('disabled-ch'));
-      const ok=i===q.a;
-      if(ok){d.classList.add('correct');tripleState.wins++;playCorrect();}
-      else{d.classList.add('wrong-pick');c.children[q.a]&&c.children[q.a].classList.add('correct');tripleState.losses++;playWrong();}
-      document.getElementById('triple-reveal-hint').classList.add('show');
-      document.getElementById('triple-reveal-hint').innerHTML=ok?'<span class="correct-tag">✅ صح!</span>':'<span class="wrong-tag">❌ خطأ</span> — <strong style="color:var(--green)">'+q.c[q.a]+'</strong>';
-      showToast(ok?'✅ صح!':'❌ خطأ');
-      const done=tripleState.cur>=tripleState.qs.length-1||tripleState.wins>=2||tripleState.losses>=2;
-      if(done){clearInterval(tripleState.timer);setTimeout(finishTriple,900);}
-      else{setTimeout(()=>{tripleState.cur++;showTripleQ();},700);}
-    };
-    c.appendChild(d);
-  });
-}
-function renderTriProg(){const el=document.getElementById('triple-progress');el.innerHTML='';tripleState.qs.forEach((_,i)=>{const d=document.createElement('div');d.className='tp-dot'+(i===tripleState.cur?' current':'');el.appendChild(d);});}
-function finishTriple(){const p=tripleState.player,won=tripleState.wins>=2;if(won){G.scores[p]+=2;showAnnounce('🔮','الثلاثي الذهبي!',G.players[p]+' +2 نقطة!',1800);showScoreFlash('🔮 +2 لـ '+G.players[p]);if(checkWin(p))return;}else showToast('❌ '+G.players[p]+' خسر الثلاثي');updateHdr();G.qNum++;G.curPlayer=1-G.curPlayer;setTimeout(()=>goToCatPick(),won?2000:1000);}
+
 async function pickCat(cat){
   const p=G.curPlayer,isF=Math.max(...G.scores)>=FT;
   const ms=Math.max(...G.scores);
-  const diff=isF?(Math.random()<0.5?{ar:'متوسط',l:'med'}:{ar:'صعب',l:'hard'}):getDiff(ms);
+  const diff=isF?(Math.random()<0.5?{ar:'متوسط',l:'med'}:{ar:'صعب',l:'hard'}):getDiff();
   const activateSuicide=G.suicideCatPending&&G.suicideLeft[p];
   G.suicideCatPending=false;
   G.catUses[p][cat.id]=(G.catUses[p][cat.id]||0)+1;
@@ -850,8 +728,7 @@ async function pickCat(cat){
   let q=null;
   if(!demoMode){document.getElementById('ld-cat').textContent=cat.icon+' '+cat.name;showScreen('sc-loading');q=await genAPI(cat.name,cat.id,diff);if(!q){showToast('⚠️ خطأ، سؤال احتياطي');q=getLocalQ(cat.id,diff.l);}}
   else{q=getLocalQ(cat.id,diff.l);}
-  G.curQ={...q,catId:cat.id,catName:cat.name,catIcon:cat.icon,_isHidden:false,_isFinale:isF};
-  if(!G.hiddenQUsed&&G.qNum>=4&&Math.random()<0.10){G.hiddenQUsed=true;G.curQ._isHidden=true;}
+  G.curQ={...q,catId:cat.id,catName:cat.name,catIcon:cat.icon,_isFinale:isF};
   G.suicideActive=activateSuicide;
   if(activateSuicide){G.suicideLeft[p]=false;}
   G.qNum++;
@@ -868,7 +745,7 @@ function showQuestion(){
   answered=false;stealActive=false;suicidePending=false;clearCD();clearAutoNext();
   const nb=document.getElementById('next-btn');if(nb)nb.style.display='none';
   showScreen('sc-q');
-  const p=G.curPlayer,q=G.curQ,isF=q._isFinale,isH=q._isHidden;
+  const p=G.curPlayer,q=G.curQ,isF=q._isFinale;
   document.getElementById('q-own-name').textContent=G.players[p];
   document.getElementById('qnum-b').textContent='س '+G.qNum;
   document.getElementById('qcat-b').textContent=q.catIcon+' '+q.catName;
@@ -888,24 +765,17 @@ function showQuestion(){
   pb.style.display='none';
   badge.className='special-badge';
   badge.innerHTML='';
-  // وضع الانتحاري يأخذ الأولوية في عرض الشارة
   if(isSuicide){
     qcard.classList.add('suicide-pts');
-    pb.style.display='block';pb.className='pts-badge suicide-bg';pb.textContent='💣 انتحاري — صح +3 | غلط -2';
+    pb.style.display='block';pb.className='pts-badge suicide-bg';pb.textContent='💣 انتحاري — صح +2 | غلط -2';
     badge.classList.add('show');badge.innerHTML='<span class="sbadge suicide-active">💣 التحدي الانتحاري مفعّل!</span>';
-    showAnnounce('💣','انتحاري!',G.players[p]+' — صح +3 أو -2!',1800);
+    showAnnounce('💣','انتحاري!',G.players[p]+' — صح +2 أو -2!',1800);
     playSuicideMusic();
   } else if(isF){
     qcard.classList.add('finale-pts');pb.style.display='block';pb.className='pts-badge finale-bg';pb.textContent='🏁 الضربة القاضية — نقطتان!';
     badge.classList.add('show');badge.innerHTML='<span class="sbadge finale">🏁 الضربة القاضية!</span>';
-    if(!G._finaleAnnounced){G._finaleAnnounced=true;showAnnounce('🏁','الضربة القاضية!','نقطتان + 7 ثواني فقط!',2000);}
-  } else if(isH){
-    qcard.classList.add('double-pts');pb.style.display='block';pb.className='pts-badge double';pb.textContent='🎰 السؤال المخفي — نقطتان!';
-    badge.classList.add('show');badge.innerHTML='<span class="sbadge hidden-q">🎰 السؤال المخفي!</span>';
-    showAnnounce('🎰','السؤال المخفي!','إجابة صحيحة = نقطتان!',1800);
-    playHiddenQ();
-  }
-  if(isF){document.getElementById('tools-bar').style.display='none';}
+    if(!G._finaleAnnounced){G._finaleAnnounced=true;showAnnounce('🏁','الضربة القاضية!','نقطتان + 7 ثواني فقط!',2000);}}
+  if(isSuicide||isF){document.getElementById('tools-bar').style.display='none';}
   else{
     document.getElementById('tools-bar').style.display='flex';
     const ll=G.lifelines[p];
@@ -915,12 +785,11 @@ function showQuestion(){
     document.getElementById('ll-swap').classList.toggle('used',ll.swap);
   }
   renderCh();
-  const secs=isSuicide?7:isF?10:10,color=isSuicide?'var(--orange)':isF?'var(--red)':'var(--gold)';
+  const secs=isSuicide?7:G.qNum>=10?10:15,color=isSuicide?'var(--orange)':isF?'var(--red)':'var(--gold)';
   setTimeout(()=>startCD(secs,color,()=>{
     if(!answered&&!suicidePending){
       stopSuicideMusic();
       if(hostPickMode){
-        // مود الهوست: تبقى الخيارات قابلة للضغط
         document.getElementById('reveal-hint').classList.add('show');
         document.getElementById('reveal-hint').innerHTML='⏰ <span style="color:var(--orange)">انتهى الوقت!</span> 👆 اضغط على إجابة المتسابق';
         playTimeUp();
@@ -935,9 +804,9 @@ function showQuestion(){
   }),100);
 }
 function renderCh(hidden){const q=G.curQ,L=['أ','ب','ج','د'],c=document.getElementById('choices');c.innerHTML='';q.c.forEach((ch,i)=>{const isH=hidden&&hidden.includes(i),d=document.createElement('div');d.className='ch'+(isH?' hidden':'');d.id='ch-'+i;d.innerHTML=`<span class="lbl">${L[i]}</span>${ch}`;if(!isH)d.onclick=()=>selectAns(i);c.appendChild(d);});}
-function selectAns(idx){if(answered||stealActive||suicidePending)return;answered=true;clearCD();stopSuicideMusic();['ll-aud','ll-swap'].forEach(id=>{const el=document.getElementById(id);if(el)el.disabled=true;});const q=G.curQ,ok=idx===q.a,p=G.curPlayer,pts=q._isFinale?2:q._isHidden?2:1,isSu=G.suicideActive;for(let i=0;i<q.c.length;i++){const el=document.getElementById('ch-'+i);if(!el||el.classList.contains('hidden'))continue;el.classList.add('disabled-ch');if(i===idx&&!ok)el.classList.add('wrong-pick');else if(i===idx&&ok)el.classList.add('correct');else el.classList.add('dim');}const hint=document.getElementById('reveal-hint');hint.classList.add('show');if(ok){playCorrect();const earned=isSu?3:pts;G.scores[p]+=earned;hint.innerHTML='<span class="correct-tag">✅ صحيحة! +'+earned+' '+(earned===1?'نقطة':earned===2?'نقطتان':'3 نقاط 🔥')+' لـ '+G.players[p]+'</span>';showScoreFlash('🎉 +'+earned+' لـ '+G.players[p]);updateHdr();if(checkWin(p))return;showNextBtn();}else{playWrong();if(isSu){G.scores[p]=Math.max(0,G.scores[p]-2);const ce=document.getElementById('ch-'+q.a);if(ce){ce.classList.remove('dim');ce.classList.add('correct');}hint.innerHTML='<span class="wrong-tag">❌ خاطئة!</span> 💀 -2 نقطة! الصحيحة: <strong style="color:var(--green)">'+q.c[q.a]+'</strong>';showScoreFlash('💣 '+G.players[p]+' يخسر نقطتين');updateHdr();showNextBtn();}else if(!q._isFinale&&G.stealsLeft[1-p]>0){hint.innerHTML='<span class="wrong-tag">❌ خاطئة!</span>';showToast('❌ خاطئة! فرصة السرقة...');showSteal(1-p);}else{const ce=document.getElementById('ch-'+q.a);if(ce){ce.classList.remove('dim');ce.classList.add('correct');}hint.innerHTML='<span class="wrong-tag">❌ خاطئة!</span> الصحيحة: <strong style="color:var(--green)">'+q.c[q.a]+'</strong>';showToast('❌ خاطئة!');updateHdr();showNextBtn();}}}
+function selectAns(idx){if(answered||stealActive||suicidePending)return;answered=true;clearCD();stopSuicideMusic();['ll-aud','ll-swap'].forEach(id=>{const el=document.getElementById(id);if(el)el.disabled=true;});const q=G.curQ,ok=idx===q.a,p=G.curPlayer,pts=q._isFinale?2:1,isSu=G.suicideActive;for(let i=0;i<q.c.length;i++){const el=document.getElementById('ch-'+i);if(!el||el.classList.contains('hidden'))continue;el.classList.add('disabled-ch');if(i===idx&&!ok)el.classList.add('wrong-pick');else if(i===idx&&ok)el.classList.add('correct');else el.classList.add('dim');}const hint=document.getElementById('reveal-hint');hint.classList.add('show');if(ok){playCorrect();const earned=isSu?2:pts;G.scores[p]+=earned;hint.innerHTML='<span class="correct-tag">✅ صحيحة! +'+earned+' '+(earned===1?'نقطة':'نقطتان')+' لـ '+G.players[p]+'</span>';showScoreFlash('🎉 +'+earned+' لـ '+G.players[p]);if(G.streak){G.streak[p]=(G.streak[p]||0)+1;if(G.streak[p]>=5){G.deductAvailable[p]=true;G.streak[p]=0;showToast('🗡️ 5 متتالية! زر اخصم متاح!');}}updateHdr();if(checkWin(p))return;showNextBtn();}else{playWrong();if(isSu){G.scores[p]=Math.max(0,G.scores[p]-2);const ce=document.getElementById('ch-'+q.a);if(ce){ce.classList.remove('dim');ce.classList.add('correct');}hint.innerHTML='<span class="wrong-tag">❌ خاطئة!</span> 💀 -2 نقطة! الصحيحة: <strong style="color:var(--green)">'+q.c[q.a]+'</strong>';if(G.streak)G.streak[p]=0;showScoreFlash('💣 '+G.players[p]+' يخسر نقطتين');updateHdr();showNextBtn();}else if(!q._isFinale&&G.stealsLeft[1-p]>0){hint.innerHTML='<span class="wrong-tag">❌ خاطئة!</span>';showToast('❌ خاطئة! فرصة السرقة...');showSteal(1-p);}else{const ce=document.getElementById('ch-'+q.a);if(ce){ce.classList.remove('dim');ce.classList.add('correct');}hint.innerHTML='<span class="wrong-tag">❌ خاطئة!</span> الصحيحة: <strong style="color:var(--green)">'+q.c[q.a]+'</strong>';if(G.streak)G.streak[p]=0;showToast('❌ خاطئة!');updateHdr();showNextBtn();}}  }
 function revealCh(sel){const q=G.curQ;for(let i=0;i<q.c.length;i++){const el=document.getElementById('ch-'+i);if(!el||el.classList.contains('hidden'))continue;el.classList.add('disabled-ch');if(i===q.a)el.classList.add('correct');else if(i===sel&&sel!==q.a)el.classList.add('wrong-pick');else el.classList.add('dim');}}
-function showSteal(other){stealActive=true;document.getElementById('steal-p').textContent='هل يريد '+G.players[other]+' سرقة الإجابة؟';document.getElementById('steal-info').textContent='متبقي: '+G.stealsLeft[other]+' سرقة';document.getElementById('steal-box').classList.add('show');document.getElementById('sb'+String(other+1)).classList.add('steal-ready');let t=5;document.getElementById('steal-timer-el').textContent=t;stealCdTimer=setInterval(()=>{t--;document.getElementById('steal-timer-el').textContent=t;if(t<=0){clearStealCD();skipSteal();}},1000);}
+function showSteal(other){stealActive=true;document.getElementById('steal-p').textContent='هل يريد '+G.players[other]+' سرقة الإجابة؟';document.getElementById('steal-info').textContent='متبقي: '+G.stealsLeft[other]+' سرقة';document.getElementById('steal-box').classList.add('show');document.getElementById('sb'+String(other+1)).classList.add('steal-ready');let t=5;document.getElementById('steal-timer-el').textContent='▶';
 function doSteal(){clearStealCD();const other=1-G.curPlayer;G.stealsLeft[other]--;document.getElementById('steal-box').classList.remove('show');document.getElementById('sb'+String(other+1)).classList.remove('steal-ready');const q=G.curQ;showToast('🔄 '+G.players[other]+' يسرق!');stealActive=false;const L=['أ','ب','ج','د'],c=document.getElementById('choices');c.innerHTML='';q.c.forEach((ch,i)=>{const d=document.createElement('div');d.className='ch';d.id='ch-'+i;d.innerHTML=`<span class="lbl">${L[i]}</span>${ch}`;d.onclick=()=>{c.querySelectorAll('.ch').forEach(x=>x.classList.add('disabled-ch'));const ok=i===q.a;if(ok){d.classList.add('correct');G.scores[other]+=1;for(let j=0;j<q.c.length;j++){const el=document.getElementById('ch-'+j);if(el&&j!==i)el.classList.add('dim');}document.getElementById('reveal-hint').innerHTML+='<br><span class="correct-tag">🔄 '+G.players[other]+' سرق +1!</span>';playCorrect();showScoreFlash('🔄 سرقة ناجحة +1!');updateHdr();if(checkWin(other))return;}else{d.classList.add('wrong-pick');const ce=document.getElementById('ch-'+q.a);if(ce)ce.classList.add('correct');for(let j=0;j<q.c.length;j++){const el=document.getElementById('ch-'+j);if(el&&j!==i&&j!==q.a)el.classList.add('dim');}G.scores[other]=Math.max(0,G.scores[other]-1);document.getElementById('reveal-hint').innerHTML+='<br><span class="wrong-tag">❌ فشلت! -1 نقطة</span> الصحيحة: <strong style="color:var(--green)">'+q.c[q.a]+'</strong>';playWrong();showScoreFlash('❌ فشلت السرقة -1!');}updateHdr();showNextBtn();};c.appendChild(d);});}
 function skipSteal(){clearStealCD();const other=1-G.curPlayer;document.getElementById('steal-box').classList.remove('show');document.getElementById('sb'+String(other+1)).classList.remove('steal-ready');stealActive=false;const q=G.curQ,ce=document.getElementById('ch-'+q.a);if(ce){ce.classList.remove('dim');ce.classList.add('correct');}for(let i=0;i<q.c.length;i++){const el=document.getElementById('ch-'+i);if(el&&i!==q.a&&!el.classList.contains('wrong-pick'))el.classList.add('dim');}document.getElementById('reveal-hint').innerHTML+='<br>الصحيحة: <strong style="color:var(--green)">'+q.c[q.a]+'</strong>';updateHdr();showNextBtn();}
 function clearStealCD(){if(stealCdTimer){clearInterval(stealCdTimer);stealCdTimer=null;}}
@@ -947,10 +816,11 @@ function showNextBtn(){clearAutoNext();setTimeout(()=>{const nb=document.getElem
 function clearAutoNext(){if(autoNextTimer){clearTimeout(autoNextTimer);autoNextTimer=null;}}
 function nextTurn(){clearCD();clearStealCD();clearAutoNext();stopSuicideMusic();G.curPlayer=1-G.curPlayer;G.suicideActive=false;goToCatPick();}
 function checkWin(p){if(G.scores[p]>=TARGET){clearCD();clearStealCD();clearAutoNext();setTimeout(()=>endGame(p),500);return true;}return false;}
+function useDeduct(){const p=G.curPlayer,other=1-p;if(!G.deductAvailable||!G.deductAvailable[p])return;G.scores[other]=Math.max(0,G.scores[other]-1);G.deductAvailable[p]=false;G.streak[p]=0;showScoreFlash('🗡️ اخصم! -1 من '+G.players[other]);updateHdr();const dw=document.getElementById('deduct-wrap');if(dw)dw.style.display='none';}
 let pbFlashTimer=null;
 function showScoreFlash(msg){const b=document.getElementById('phase-banner');if(!b)return;if(pbFlashTimer)clearTimeout(pbFlashTimer);b.className='phase-banner score-flash show';b.textContent=msg;pbFlashTimer=setTimeout(()=>{pbFlashTimer=null;updatePB();},2500);}
-function updatePB(){if(pbFlashTimer)return;const b=document.getElementById('phase-banner'),ms=Math.max(...G.scores);if(ms>=FT){b.className='phase-banner finale show';b.textContent='🏁 الضربة القاضية! نقطتان + 10 ثواني!';}else{b.className='phase-banner normal show';b.textContent=G.players[0]+': '+G.scores[0]+' | '+G.players[1]+': '+G.scores[1]+' — الهدف 20';}}
-function endGame(winner){clearCD();clearStealCD();clearAutoNext();document.getElementById('phase-banner').className='phase-banner';document.getElementById('target-banner').classList.remove('show');showAnnounce('🏆','الفائز: '+G.players[winner],'وصل لـ 20 نقطة! 🎉',2800);setTimeout(()=>{showScreen('sc-result');const[s1,s2]=G.scores,[n1,n2]=G.players;document.getElementById('result-content').innerHTML=`<div class="ri">🏆</div><div class="rtitle">الفائز في تحدي الفهد</div><div class="winner-big">🥇 ${G.players[winner]}</div><div style="font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:8px">وصل لـ 20 نقطة في ${G.qNum} سؤال</div><div class="score-final"><div class="sf blue"><div class="sfn">${n1}</div><div class="sfp">${s1}</div></div><div style="font-size:18px;align-self:center;color:var(--gold);padding:0 8px">VS</div><div class="sf red"><div class="sfn">${n2}</div><div class="sfp">${s2}</div></div></div><button class="btn" onclick="startGame()">🔄 جولة جديدة</button><button class="btn danger" onclick="confirmReset()">👥 متسابقون جدد</button>`;},3000);}
+function updatePB(){if(pbFlashTimer)return;const b=document.getElementById('phase-banner'),ms=Math.max(...G.scores);if(ms>=FT){b.className='phase-banner finale show';b.textContent='🏁 الضربة القاضية! نقطتان + 10 ثواني!';}else{b.className='phase-banner normal show';b.textContent=G.players[0]+': '+G.scores[0]+' | '+G.players[1]+': '+G.scores[1]+' — الهدف 15';}}
+function endGame(winner){clearCD();clearStealCD();clearAutoNext();document.getElementById('phase-banner').className='phase-banner';document.getElementById('target-banner').classList.remove('show');showAnnounce('🏆','الفائز: '+G.players[winner],'وصل لـ 15 نقطة! 🎉',2800);setTimeout(()=>{showScreen('sc-result');const[s1,s2]=G.scores,[n1,n2]=G.players;document.getElementById('result-content').innerHTML=`<div class="ri">🏆</div><div class="rtitle">الفائز في تحدي الفهد</div><div class="winner-big">🥇 ${G.players[winner]}</div><div style="font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:8px">وصل لـ 15 نقطة في ${G.qNum} سؤال</div><div class="score-final"><div class="sf blue"><div class="sfn">${n1}</div><div class="sfp">${s1}</div></div><div style="font-size:18px;align-self:center;color:var(--gold);padding:0 8px">VS</div><div class="sf red"><div class="sfn">${n2}</div><div class="sfp">${s2}</div></div></div><button class="btn" onclick="startGame()">🔄 جولة جديدة</button><button class="btn danger" onclick="confirmReset()">👥 متسابقون جدد</button>`;},3000);}
 function updateHdr(){document.getElementById('sb1-name').textContent=G.players[0];document.getElementById('sb1-pts').textContent=G.scores[0];document.getElementById('sb2-name').textContent=G.players[1];document.getElementById('sb2-pts').textContent=G.scores[1];document.getElementById('turn-name').textContent=G.players[G.curPlayer];document.getElementById('sb1').classList.toggle('active-turn',G.curPlayer===0);document.getElementById('sb2').classList.toggle('active-turn',G.curPlayer===1);}
 function askReset(){document.getElementById('modal-overlay').classList.add('open')}
 function closeModal(){document.getElementById('modal-overlay').classList.remove('open')}
