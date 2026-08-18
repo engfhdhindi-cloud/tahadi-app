@@ -590,7 +590,7 @@ function startGame(){
   document.getElementById('hdr-scores').style.display='flex';document.getElementById('turn-pill').style.display='block';document.getElementById('hdr-reset-btn').style.display='block';document.getElementById('stream-delay-btn').style.display='inline-block';document.getElementById('host-pick-btn').style.display='inline-block';document.getElementById('target-banner').classList.add('show');document.getElementById('sp1-name').textContent=p1;document.getElementById('sp2-name').textContent=p2;updateHdr();runFirstStrike();
 }
 
-function getDiff(){const n=G.qNum;return n>=11?{ar:'صعب',l:'hard'}:n>=6?{ar:'متوسط',l:'med'}:{ar:'سهل',l:'easy'};}
+function getDiff(){const n=G.qNum;return n>=10?{ar:'صعب',l:'hard'}:n>=5?{ar:'متوسط',l:'med'}:{ar:'سهل',l:'easy'};}
 
 function runFirstStrike(){
   strikeAnswered=false;
@@ -647,17 +647,25 @@ function getLocalQ(catId,level){
 }
 
 async function genAPI(catName,catId,diff){
-  const ul=[...apiUsedQ].slice(-40).join(' || ');
-  const pr=`أنت مولّد أسئلة لبرنامج مسابقات ثقافية عربي.\nاكتب سؤالاً واحداً عن: ${catName}، مستوى: ${diff.ar}\nقواعد: عربية بسيطة، 4 اختيارات، واحد صحيح، لا تكرر هذه الأسئلة إطلاقاً: ${ul||'لا يوجد'}\nأجب JSON فقط: {"q":"السؤال","c":["أ","ب","ج","د"],"a":0}`;
-  try{
+  const usedList=[...apiUsedQ].slice(-60).join(' | ');
+  const angles=['من زاوية مختلفة','جانب غير شائع','تفصيل دقيق','معلومة نادرة','ناحية علمية/تاريخية'];
+  const angle=angles[Math.floor(Math.random()*angles.length)];
+  const seed=Math.floor(Math.random()*9999);
+  const pr=`أنت مولّد أسئلة مسابقات ثقافية عربية. رقم الجلسة: ${seed}.\nاكتب سؤالاً واحداً جديداً تماماً عن: ${catName}، مستوى: ${diff.ar}، من ${angle}.\nقواعد صارمة:\n1. عربية فصحى بسيطة، 4 اختيارات، واحد صحيح فقط\n2. يجب أن يكون مختلفاً كلياً عن هذه الأسئلة المحظورة: ${usedList||'لا يوجد'}\n3. لا تستخدم نفس الموضوع أو الصياغة\nأجب JSON فقط بدون أي نص إضافي: {"q":"السؤال","c":["أ","ب","ج","د"],"a":0}`;
+  const doFetch=async()=>{
     const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:400,messages:[{role:'user',content:pr}]})});
     if(!r.ok)return null;
     const d=await r.json();
-    const q=JSON.parse(d.content[0].text.trim().replace(/```json|```/g,'').trim());
-    if(!q.q||!q.c||q.c.length!==4||q.a===undefined)return null;
-    apiUsedQ.add(q.q.substring(0,60));
-    globalUsedQ.add(q.q.substring(0,60));
-    if(G.sessionUsedQ)G.sessionUsedQ.add(q.q.substring(0,60));
+    return JSON.parse(d.content[0].text.trim().replace(/```json|```/g,'').trim());
+  };
+  try{
+    let q=await doFetch();
+    if(!q||!q.q||!q.c||q.c.length!==4||q.a===undefined)return null;
+    // إذا تكرر السؤال، جرب مرة ثانية
+    if(apiUsedQ.has(q.q.substring(0,50))){q=await doFetch();if(!q||!q.q)return null;}
+    const key=q.q.substring(0,60);
+    apiUsedQ.add(key);globalUsedQ.add(key);
+    if(G.sessionUsedQ)G.sessionUsedQ.add(key);
     saveUsedQ(globalUsedQ);
     const cat=CATS.find(c=>c.id===catId);
     return{...q,l:diff.l,catId,catName:cat.name,catIcon:cat.icon};
