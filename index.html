@@ -377,7 +377,21 @@ body{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bot
       <div class="irow"><label>المتسابق الأول</label><input id="in-p1" placeholder="مثال: أحمد"></div>
       <div class="irow"><label>المتسابق الثاني</label><input id="in-p2" placeholder="مثال: سارة"></div>
     </div>
-    <div style="text-align:center;margin-top:8px;display:flex;gap:8px;justify-content:center">
+    <!-- وضع الصعوبة -->
+    <div class="card" style="margin-top:10px">
+      <h3 style="margin-bottom:8px">🎚️ وضع الأسئلة</h3>
+      <div style="display:flex;gap:8px;flex-direction:column">
+        <div id="diff-mode-std" onclick="setDiffMode('standard')" style="cursor:pointer;padding:10px 14px;border-radius:12px;border:2px solid var(--gold);background:rgba(243,156,18,0.12);transition:all .2s">
+          <div style="font-weight:700;color:var(--gold);font-size:13px">⭐ وضع تنافسي <span style="font-size:10px;color:rgba(255,255,255,0.5);font-weight:400">(محدد حالياً)</span></div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:3px">نقطة 1-5 سهل • 6-10 متوسط • 11-15 صعب</div>
+        </div>
+        <div id="diff-mode-easy" onclick="setDiffMode('easy')" style="cursor:pointer;padding:10px 14px;border-radius:12px;border:2px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);transition:all .2s">
+          <div style="font-weight:700;color:rgba(255,255,255,0.6);font-size:13px">🌱 وضع مخفف</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:3px">نقطة 1-7 سهل • 8-15 متوسط فقط (بدون أسئلة صعبة)</div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:10px;display:flex;gap:8px;justify-content:center">
       <button class="btn sec" onclick="showScreen('sc-api')">← رجوع</button>
       <button class="btn" onclick="showScreen('sc-rules')">التالي ←</button>
     </div>
@@ -590,10 +604,32 @@ function startGame(){
   document.getElementById('hdr-scores').style.display='flex';document.getElementById('turn-pill').style.display='block';document.getElementById('hdr-reset-btn').style.display='block';document.getElementById('stream-delay-btn').style.display='inline-block';document.getElementById('host-pick-btn').style.display='inline-block';document.getElementById('target-banner').classList.add('show');document.getElementById('sp1-name').textContent=p1;document.getElementById('sp2-name').textContent=p2;updateHdr();runFirstStrike();
 }
 
+let diffMode='standard'; // 'standard' | 'easy'
+function setDiffMode(mode){
+  diffMode=mode;
+  const std=document.getElementById('diff-mode-std');
+  const easy=document.getElementById('diff-mode-easy');
+  if(mode==='standard'){
+    std.style.border='2px solid var(--gold)';std.style.background='rgba(243,156,18,0.12)';
+    std.querySelector('div').style.color='var(--gold)';
+    easy.style.border='2px solid rgba(255,255,255,0.1)';easy.style.background='rgba(255,255,255,0.04)';
+    easy.querySelector('div').style.color='rgba(255,255,255,0.6)';
+    showToast('⭐ وضع تنافسي — 1-5 سهل، 6-10 متوسط، 11-15 صعب');
+  }else{
+    easy.style.border='2px solid #2ecc71';easy.style.background='rgba(46,204,113,0.12)';
+    easy.querySelector('div').style.color='#2ecc71';
+    std.style.border='2px solid rgba(255,255,255,0.1)';std.style.background='rgba(255,255,255,0.04)';
+    std.querySelector('div').style.color='rgba(255,255,255,0.6)';
+    showToast('🌱 وضع مخفف — 1-7 سهل، 8-15 متوسط فقط');
+  }
+}
 function getDiff(){
-  // الصعوبة بناءً على نقاط اللاعب الحالي
-  // 0-5 سهل | 6-10 متوسط | 11+ صعب
   const s=G.scores[G.curPlayer];
+  if(diffMode==='easy'){
+    // وضع مخفف: 1-7 سهل | 8-15 متوسط
+    return s>=8?{ar:'متوسط',l:'med'}:{ar:'سهل',l:'easy'};
+  }
+  // وضع تنافسي: 1-5 سهل | 6-10 متوسط | 11-15 صعب
   return s>=11?{ar:'صعب',l:'hard'}:s>=6?{ar:'متوسط',l:'med'}:{ar:'سهل',l:'easy'};
 }
 
@@ -656,12 +692,15 @@ async function genAPI(catName,catId,diff){
   const angles=['من زاوية مختلفة','جانب غير شائع','تفصيل دقيق','معلومة نادرة','ناحية علمية/تاريخية'];
   const angle=angles[Math.floor(Math.random()*angles.length)];
   const seed=Math.floor(Math.random()*9999);
-  const diffDesc={
-    'سهل':'(سؤال بسيط يعرفه معظم الناس، معلومة عامة شائعة)',
-    'متوسط':'(سؤال يحتاج معرفة متوسطة، ليس شائعاً جداً ولا نادراً)',
-    'صعب':'(سؤال متخصص يحتاج معرفة عميقة، معلومة غير مألوفة للعامة)'
+  const diffGuide={
+    'سهل':`سهل = يعرفه أي شخص عادي مثل: "ما عاصمة فرنسا؟" أو "كم يوماً في الأسبوع؟" أو "من هو نبي الإسلام؟"
+اكتب سؤالاً بهذا المستوى البسيط جداً عن: ${catName}`,
+    'متوسط':`متوسط = يعرفه الشخص المثقف نسبياً مثل: "ما هو أطول نهر في العالم؟" أو "من اخترع الهاتف؟" أو "كم دولة في الاتحاد الأوروبي تقريباً؟"
+اكتب سؤالاً بهذا المستوى المتوسط عن: ${catName}`,
+    'صعب':`صعب = يعرفه المتخصص أو المثقف العميق مثل: "ما اسم أول رواية عربية مطبوعة؟" أو "من صاح بمقولة أنا أفكر إذن أنا موجود؟"
+اكتب سؤالاً بهذا المستوى الصعب المتخصص عن: ${catName}`
   };
-  const pr=`أنت مولّد أسئلة مسابقات ثقافية عربية. رقم العشوائية: ${seed}.\nاكتب سؤالاً واحداً جديداً تماماً عن: ${catName}، من ${angle}.\nمستوى الصعوبة المطلوب: ${diff.ar} ${diffDesc[diff.ar]||''}\nقواعد صارمة:\n1. عربية فصحى بسيطة، 4 اختيارات، واحد صحيح فقط\n2. التزم بمستوى الصعوبة المطلوب بدقة\n3. السؤال يجب أن يكون مختلفاً كلياً عن هذه المحظورة: ${usedList||'لا يوجد'}\n4. لا تكرر نفس الموضوع أو الصياغة أبداً\nأجب JSON فقط: {"q":"السؤال","c":["أ","ب","ج","د"],"a":0}`;
+  const pr=`أنت مولّد أسئلة مسابقات ثقافية عربية. رقم عشوائي: ${seed}.\n${diffGuide[diff.ar]||diffGuide['متوسط']}، من ${angle}.\nقواعد صارمة:\n1. عربية فصحى بسيطة، 4 اختيارات، واحد صحيح فقط\n2. التزم حرفياً بمستوى الصعوبة الموصوف أعلاه\n3. السؤال مختلف تماماً عن هذه المحظورة: ${usedList||'لا يوجد'}\nأجب JSON فقط: {"q":"السؤال","c":["أ","ب","ج","د"],"a":0}`;
   const doFetch=async()=>{
     const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:400,messages:[{role:'user',content:pr}]})});
     if(!r.ok)return null;
